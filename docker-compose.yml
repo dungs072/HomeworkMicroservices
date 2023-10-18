@@ -1,0 +1,89 @@
+version: '3.4'
+
+networks:
+  backend:
+
+services:
+  usersdb:
+    container_name: users-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=password#123
+    networks:
+      - backend
+    ports:
+      - 8001:1433
+  catalogsdb:
+    container_name: catalogs-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=password#123
+    networks:
+      - backend
+    ports:
+      - 8002:1433 
+  orderingsdb:
+    container_name: orderings-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=password#123
+    networks:
+      - backend
+    ports:
+      - 8003:1433 
+
+
+  userservice:
+    container_name: users-api
+    image: ${DOCKER_REGISTRY-}userservice
+    build:
+      context: .
+      dockerfile: UserService/Dockerfile
+    networks:
+     - backend
+    environment:
+     - DB_HOST=usersdb
+     - DB_NAME=EShopUser
+     - DB_SA_PASSWORD=password#123
+
+  catalogservice:
+    container_name: catalog-api
+    image: ${DOCKER_REGISTRY-}catalogservice
+    build:
+      context: .
+      dockerfile: CatalogService/Dockerfile
+    networks:
+     - backend
+    environment:
+     - DB_HOST=catalogsdb
+     - DB_NAME=EShopCatalog
+     - DB_SA_PASSWORD=password#123
+
+
+  orderingservice:
+    container_name: ordering-api
+    image: ${DOCKER_REGISTRY-}orderingservice
+    build:
+      context: .
+      dockerfile: OrderingService/Dockerfile
+    networks:
+     - backend
+    environment:
+     - DB_HOST=orderingsdb
+     - DB_NAME=EShopOrdering
+     - DB_SA_PASSWORD=password#123
+
+  apigateway:
+    container_name: api-gateway
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+     - 8007:80
+    networks:
+     - backend
+

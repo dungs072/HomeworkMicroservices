@@ -1,0 +1,84 @@
+{
+  "Routes": [
+    // Catalog Web API
+    {
+      "UpstreamPathTemplate": "/api/Catalog",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "catalogservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Catalog"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Catalog/{productId}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "catalogservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Catalog/{productId}"
+    },
+
+    //Ordering Web API
+    {
+      "UpstreamPathTemplate": "/api/Order",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "orderingservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Order"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Order/{orderingId}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "orderingservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Product/{orderingId}"
+    },
+
+    // User Web API
+    {
+      "UpstreamPathTemplate": "/api/User",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/User"
+    },
+    {
+      "UpstreamPathTemplate": "/api/User/{userId}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/User/{userId}"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:8007"
+  }
+}
